@@ -7,11 +7,12 @@ import com.crud.configs.DatabaseConfig
 import org.flywaydb.core.Flyway
 
 object FlywayMigrator {
-  final def migrate[F[_]: Sync](config: DatabaseConfig): F[Int] =
+  final def migrate[F[_]: Sync](config: DatabaseConfig): F[Int] = {
     for {
       flyway <- loadFlyway(config)
       applied <- Sync[F].delay(flyway.migrate())
     } yield applied.migrationsExecuted
+  }
 
   private def loadFlyway[F[_]: Sync](config: DatabaseConfig): F[Flyway] =
     Sync[F].delay {
@@ -23,7 +24,6 @@ object FlywayMigrator {
           config.migrationConfig.password
         )
         .load()
-
     }
 
 }
