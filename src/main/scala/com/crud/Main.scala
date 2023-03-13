@@ -22,7 +22,6 @@ object Main extends Simple {
     (for {
       _ <- IO.pure(config)
       _ <- IO.pure(xa)
-      _ <- IO.pure(println("Hello World!"))
     } yield ()).foreverM
 
   private def loadConfig[F[_]: Sync]: F[CrudConfig] = {
