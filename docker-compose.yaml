@@ -19,6 +19,3 @@ services:
       - "8080:8080"
     depends_on:
       - database
-    environment:
-      - DB_HOST=localhost
-      - DB_NAME=crud_db

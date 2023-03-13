@@ -26,14 +26,3 @@ RUN sbt compile
 EXPOSE 8080
 
 CMD ["sbt", "run"]
-
-#ENTRYPOINT exec java \
-#         -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 \
-#         -Dcom.sun.management.jmxremote.rmi.port=9010 \
-#         -Dcom.sun.management.jmxremote.local.only=false \
-#         -Dcom.sun.management.jmxremote.authenticate=false \
-#         -Dcom.sun.management.jmxremote.ssl=false \
-#         -Djava.rmi.server.hostname=127.0.0.1 \
-#         -XX:InitialRAMPercentage=65.0 -XX:MinRAMPercentage=65.0 -XX:MaxRAMPercentage=65.0 -XX:ActiveProcessorCount=2 \
-#         -XX:+AlwaysPreTouch -XX:NativeMemoryTracking=summary -XX:+UseG1GC \
-#         -jar crud-scala.jar
