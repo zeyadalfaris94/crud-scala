@@ -15,9 +15,9 @@ final case class DatabaseConfig(
 ) {
   val url: String = {
     val params =
-      s"""sslmode=$sslMode&ssl=${ssl}&sslfactory=org.postgresql.ssl.NonValidatingFactory"""
+      s"""sslmode=$sslMode&ssl=$ssl&sslfactory=org.postgresql.ssl.NonValidatingFactory"""
     val jdbcUrl =
-      s"""jdbc:postgresql://$host:5432/$databaseName?$params"""
+      s"""jdbc:postgresql://database:5432/$databaseName?$params"""
     jdbcUrl
   }
 }

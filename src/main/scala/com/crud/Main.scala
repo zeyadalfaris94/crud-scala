@@ -19,7 +19,7 @@ object Main extends Simple {
     )
 
   private def program(xa: HikariTransactor[IO], config: CrudConfig): IO[Unit] =
-    ???
+    IO(println("Hello, world!"))
 
   private def loadConfig[F[_]: Sync]: F[CrudConfig] = {
     val config: Config = ConfigFactory.load()

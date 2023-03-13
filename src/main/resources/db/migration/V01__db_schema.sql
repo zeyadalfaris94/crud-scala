@@ -1,7 +1,3 @@
-create DATABASE IF not exists crud_db;
-
-\c crud_db
-
 create table users
 (
     user_id uuid PRIMARY KEY,
