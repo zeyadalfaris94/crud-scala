@@ -14,25 +14,9 @@ object Server {
   ): F[Unit] =
     BlazeServerBuilder[F]
       .withExecutionContext(executionContext)
-      .bindHttp(8080, "localhost")
-      .withBanner(banner)
+      .bindHttp(8080, "0.0.0.0")
       .withHttpApp(httpApp)
       .serve
       .compile
       .drain
-
-  private val banner =
-    """
-      |             ___           ___
-      |            /  /\         /  /\      ___
-      |           /  /::\       /  /::\    /  /\
-      |          /  /:/\:\     /  /:/\:\  /  /:/
-      |         /  /:/~/::\   /  /:/~/:/ /__/::\
-      |        /__/:/ /:/\:\ /__/:/ /:/  \__\/\:\__
-      |        \  \:\/:/__\/ \  \:\/:/      \  \:\/\
-      |         \  \::/       \  \::/        \__\::/
-      |          \  \:\        \  \:\        /__/:/
-      |           \  \:\        \  \:\       \__\/
-      |            \__\/         \__\/
-      |""".stripMargin.split("\n").toList
 }
