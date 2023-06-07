@@ -2,8 +2,6 @@ package com.crud
 
 import cats.effect.{Async, Resource}
 import com.crud.configs.DatabaseConfig
-import doobie.hikari.HikariTransactor
-import doobie.util.ExecutionContexts
 
 object HikariTransactorImpl {
   def apply[F[_]: Async](

@@ -4,15 +4,16 @@ import cats.effect.{IO, Sync}
 import cats.implicits._
 import cats.effect.IOApp.Simple
 import com.crud.configs.CrudConfig
-import com.crud.controllers.HealthRoute
+import com.crud.controllers.{HealthRoute, OrdersRoute}
+import com.crud.services.OrdersService
 import com.typesafe.config.{Config, ConfigFactory}
-import doobie.hikari.HikariTransactor
 import org.http4s.server.Router
 import pureconfig._
 import pureconfig.generic.auto._
 
 object Main extends Simple {
 
+  private val ordersService: OrdersService[IO] = new OrdersServiceImpl[IO]
   override def run: IO[Unit] =
     loadConfig[IO].flatMap(config =>
       FlywayMigrator.migrate[IO](config.database) >> HikariTransactorImpl[IO](
@@ -26,7 +27,8 @@ object Main extends Simple {
       _ <- IO(println(s"Config: $config"))
       routes <- IO.pure(
         Router(
-          "/health" -> HealthRoute[IO]().endpoints
+          "/health" -> HealthRoute[IO]().endpoints,
+          "/users" -> OrdersRoute[IO](ordersService).endpoints
         ).orNotFound
       )
       _ <- Server.run[IO](routes, runtime.compute)
