@@ -4,7 +4,7 @@ import com.crud.models.Order
 import slick.jdbc.H2Profile.api._
 
 class OrdersServiceImpl[F[_]](db: Database) extends OrdersService[F] {
-  override def getOrders(): F[List[Order]] = ???
+  override def getOrders: F[Seq[Order]] = ???
 
   override def getOrder(id: Int): F[Option[Order]] = ???
 

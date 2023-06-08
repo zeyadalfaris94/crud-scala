@@ -22,14 +22,13 @@ object Main extends Simple {
     )
 
   private def program(db: Database, config: CrudConfig): IO[Unit] = {
-    val ordersService: OrdersService[IO] = new OrdersServiceImpl[IO](db)
     (for {
       _ <- IO(println("Starting server..."))
-      _ <- IO(println(s"Config: $config"))
+      ordersService <- IO.pure(new OrdersServiceImpl[IO](db))
       routes <- IO.pure(
         Router(
           "/health" -> HealthRoute[IO]().endpoints,
-          "/users" -> OrdersRoute[IO](ordersService).endpoints
+          "/orders" -> OrdersRoute[IO](ordersService).endpoints
         ).orNotFound
       )
       _ <- Server.run[IO](routes, runtime.compute)

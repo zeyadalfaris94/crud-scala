@@ -1,6 +1,8 @@
 package com.crud.models
 
-import java.time.ZonedDateTime
+import io.circe.generic.semiauto.{deriveDecoder, deriveEncoder}
+import io.circe.{Decoder, Encoder}
+
 import java.util.UUID
 
 final case class Order(
@@ -10,3 +12,11 @@ final case class Order(
     quantity: Int,
     status: String
 )
+
+object Order {
+  implicit val encoder: Encoder[Order] =
+    deriveEncoder[Order]
+  implicit val decoder: Decoder[Order] =
+    deriveDecoder[Order]
+
+}
