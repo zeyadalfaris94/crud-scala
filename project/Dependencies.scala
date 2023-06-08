@@ -34,6 +34,7 @@ object Dependencies {
     "com.typesafe.slick" %% "slick-hikaricp" % "3.4.1",
     "com.github.tminglei" %% "slick-pg" % "0.21.1",
     "com.github.tminglei" %% "slick-pg_circe-json" % "0.21.1",
+    "org.slf4j" % "slf4j-nop" % "2.0.5",
     "org.postgresql" % "postgresql" % "42.5.4",
     "org.flywaydb" % "flyway-core" % "9.16.0"
   )

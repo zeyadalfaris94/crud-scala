@@ -5,23 +5,24 @@ import cats.implicits._
 import cats.effect.IOApp.Simple
 import com.crud.configs.CrudConfig
 import com.crud.controllers.{HealthRoute, OrdersRoute}
-import com.crud.services.OrdersService
+import com.crud.services.{OrdersService, OrdersServiceImpl}
 import com.typesafe.config.{Config, ConfigFactory}
 import org.http4s.server.Router
 import pureconfig._
 import pureconfig.generic.auto._
+import slick.jdbc.H2Profile.api._
 
 object Main extends Simple {
 
-  private val ordersService: OrdersService[IO] = new OrdersServiceImpl[IO]
   override def run: IO[Unit] =
     loadConfig[IO].flatMap(config =>
       FlywayMigrator.migrate[IO](config.database) >> HikariTransactorImpl[IO](
         config.database
-      ).use(xa => program(xa, config))
+      ).use(db => program(db, config))
     )
 
-  private def program(xa: HikariTransactor[IO], config: CrudConfig): IO[Unit] =
+  private def program(db: Database, config: CrudConfig): IO[Unit] = {
+    val ordersService: OrdersService[IO] = new OrdersServiceImpl[IO](db)
     (for {
       _ <- IO(println("Starting server..."))
       _ <- IO(println(s"Config: $config"))
@@ -35,6 +36,7 @@ object Main extends Simple {
     } yield ()).handleErrorWith { ex =>
       IO(println(s"Error: $ex")) >> IO.raiseError(ex)
     }
+  }
 
   private def loadConfig[F[_]: Sync]: F[CrudConfig] = {
     val config: Config = ConfigFactory.load()

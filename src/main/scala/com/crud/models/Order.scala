@@ -1,11 +1,12 @@
 package com.crud.models
 
-case class Order(
-    id: Int,
+import java.time.ZonedDateTime
+import java.util.UUID
+
+final case class Order(
+    id: UUID,
     name: String,
     price: Double,
     quantity: Int,
-    status: String,
-    createdAt: String,
-    updatedAt: String
+    status: String
 )

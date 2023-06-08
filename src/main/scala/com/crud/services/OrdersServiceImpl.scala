@@ -1,9 +1,9 @@
-package com.crud
+package com.crud.services
 
 import com.crud.models.Order
-import com.crud.services.OrdersService
+import slick.jdbc.H2Profile.api._
 
-class OrdersServiceImpl[F[_]] extends OrdersService[F] {
+class OrdersServiceImpl[F[_]](db: Database) extends OrdersService[F] {
   override def getOrders(): F[List[Order]] = ???
 
   override def getOrder(id: Int): F[Option[Order]] = ???
